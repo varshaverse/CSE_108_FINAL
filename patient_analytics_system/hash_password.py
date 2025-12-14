@@ -9,8 +9,9 @@ cur = conn.cursor()
 cur.execute("SELECT doctor_id, password FROM Doctor")
 
 for doctor_id, password in cur.fetchall():
-    if password.startswith("pbkdf2:"):
-        continue  # already hashed
+    # skip null or already-hashed passwords
+    if not password or password.startswith("pbkdf2:"):
+        continue
 
     hashed = generate_password_hash(password, method="pbkdf2:sha256")
 
@@ -22,5 +23,4 @@ for doctor_id, password in cur.fetchall():
 conn.commit()
 conn.close()
 
-print("All doctor passwords hashed.")
-
+print("Doctor passwords cleaned and hashed.")
