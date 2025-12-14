@@ -13,8 +13,12 @@ app = Flask(
     static_folder="static",
 )
 
-app.secret_key = "super_secret_key_123"  # Replace with a secure random key in production
+app.secret_key = "super_secret_key_123"
 
+
+# -------------------------------
+# DB CONNECTION
+# -------------------------------
 def get_db():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
